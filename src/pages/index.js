@@ -1,61 +1,8 @@
 import React from "react"
-import { graphql } from "gatsby"
 import "../css/global.css"
 
-export const pageQuery = graphql`
-  query CompetitionQuery {
-    prismicCompetition {
-      data {
-        title {
-          html
-        }
-        description {
-          html
-        }
-        hero {
-          fixed {
-            src
-          }
-        }
-      }
-    }
-  }
-`
-
-const Index = ({ data: { prismicCompetition } }) => {
-  const { title, description, hero } = prismicCompetition.data
-  return (
-    <React.Fragment>
-      <div>{prismicCompetition.data.uid}</div>
-      <div dangerouslySetInnerHTML={{ __html: title.html }} />
-      <div
-        dangerouslySetInnerHTML={{
-          __html: description.html,
-        }}
-      />
-      <img src={hero.fixed.src} alt="Dummy" />
-    </React.Fragment>
-  )
+const Index = () => {
+  return <div>Hello World!</div>
 }
 
 export default Index
-
-const french = graphql`
-  query CompetitionQuery {
-    prismicCompetition(lang: { eq: "fr-fr" }) {
-      data {
-        title {
-          html
-        }
-        description {
-          html
-        }
-        hero {
-          fixed {
-            src
-          }
-        }
-      }
-    }
-  }
-`

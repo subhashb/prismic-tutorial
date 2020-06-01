@@ -14,13 +14,21 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
-      resolve: `gatsby-source-prismic`,
+      resolve: `gatsby-source-prismic-graphql`,
       options: {
         repositoryName: `team8site`,
+        defaultLang: "en-us",
         accessToken: `${process.env.API_KEY}`,
-        schemas: {
-          competition: require("./src/schemas/competition.json"),
-        },
+        path: "/preview",
+        previews: true,
+        pages: [
+          {
+            type: "Competition",
+            match: "/competition/:uid", // pages will be generated under this pattern
+            previewPath: "/competition", // optional path for unpublished documents
+            component: require.resolve("./src/templates/competition.js"),
+          },
+        ],
       },
     },
   ],
