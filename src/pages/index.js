@@ -41,14 +41,18 @@ const Index = ({ data: { prismicCompetition } }) => {
 export default Index
 
 const french = graphql`
-  {
-    allPrismicCompetition(filter: { lang: { eq: "fr-fr" } }) {
-      edges {
-        node {
-          data {
-            title {
-              html
-            }
+  query CompetitionQuery {
+    prismicCompetition(lang: { eq: "fr-fr" }) {
+      data {
+        title {
+          html
+        }
+        description {
+          html
+        }
+        hero {
+          fixed {
+            src
           }
         }
       }
