@@ -4,7 +4,7 @@ import "../css/global.css"
 
 export const pageQuery = graphql`
   query CompetitionQuery {
-    competition: prismicCompetition {
+    prismicCompetition {
       data {
         title {
           html
@@ -22,19 +22,18 @@ export const pageQuery = graphql`
   }
 `
 
-const Index = ({ data: { competition } }) => {
-  const { title, description } = competition.data
-  const image = competition.data.hero.fixed.src
+const Index = ({ data: { prismicCompetition } }) => {
+  const { title, description, hero } = prismicCompetition.data
   return (
     <React.Fragment>
-      <div>{competition.data.uid}</div>
+      <div>{prismicCompetition.data.uid}</div>
       <div dangerouslySetInnerHTML={{ __html: title.html }} />
       <div
         dangerouslySetInnerHTML={{
           __html: description.html,
         }}
       />
-      <img src={image} alt="Dummy" />
+      <img src={hero.fixed.src} alt="Dummy" />
     </React.Fragment>
   )
 }
@@ -42,7 +41,7 @@ const Index = ({ data: { competition } }) => {
 export default Index
 
 const french = graphql`
-  query filterByLang {
+  {
     allPrismicCompetition(filter: { lang: { eq: "fr-fr" } }) {
       edges {
         node {
