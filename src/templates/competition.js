@@ -3,6 +3,7 @@ import { graphql } from "gatsby"
 import { RichText } from "prismic-reactjs"
 import styled from "styled-components"
 import Img from "gatsby-image"
+import AniLink from "gatsby-plugin-transition-link/AniLink"
 
 export const query = graphql`
   query($uid: String!) {
@@ -28,13 +29,15 @@ export const query = graphql`
 `
 
 const Competition = response => {
-  console.log(response)
   const data = response.data
   const { title, description, awards } = data.prismic.competition
   const sharpImage = data.prismic.competition.image1Sharp.childImageSharp.fluid
   return (
     <Wrapper>
       <div className="container">
+        <AniLink fade to="/" className="link">
+          Back to Home
+        </AniLink>
         {RichText.render(title)}
         <div className="row">
           <div>
@@ -47,7 +50,7 @@ const Competition = response => {
           <div className="awards">
             {awards.map((item, index) => {
               return (
-                <div className="award">
+                <div key={index} className="award">
                   <div>{RichText.render(item.name)}</div>
                   <br />
                   <div>{RichText.render(item.criteria)}</div>
@@ -65,6 +68,9 @@ const Wrapper = styled.div`
   .container {
     display: flex;
     flex-direction: column;
+  }
+  .link {
+    color: #fff;
   }
   .row {
     padding: 2em 0;

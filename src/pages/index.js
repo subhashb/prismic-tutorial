@@ -1,8 +1,9 @@
 import React from "react"
 import "../css/global.css"
 import styled from "styled-components"
-import { useStaticQuery, graphql, Link } from "gatsby"
-import { RichText, Date as ParseDate } from "prismic-reactjs"
+import { useStaticQuery, graphql } from "gatsby"
+import { RichText } from "prismic-reactjs"
+import AniLink from "gatsby-plugin-transition-link/AniLink"
 
 const getTours = graphql`
   query Competitions {
@@ -31,11 +32,14 @@ const Index = ({ data }) => {
       <div className="container">
         {competitions.map(({ node }, index) => {
           return (
-            <Link to={`/competition/${node._meta.uid}`}>
-              <div className="btn" key={index}>
-                {RichText.render(node.title)}
-              </div>
-            </Link>
+            <AniLink
+              key={index}
+              fade
+              to={`/competition/${node._meta.uid}`}
+              className="btn"
+            >
+              {RichText.render(node.title)}
+            </AniLink>
           )
         })}
       </div>
@@ -60,8 +64,6 @@ const Wrapper = styled.div`
     border: 2px solid white;
     padding: 0.9rem 1.6rem;
     display: inline-block;
-    transition: all 0.3s linear;
-    cursor: pointer;
   }
 `
 
