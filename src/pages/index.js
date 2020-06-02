@@ -1,7 +1,7 @@
-import React from "react"
+import React, { useEffect, useRef } from "react"
 import "../css/global.css"
 import styled from "styled-components"
-import { useStaticQuery, graphql } from "gatsby"
+import { graphql } from "gatsby"
 import { RichText } from "prismic-reactjs"
 import AniLink from "gatsby-plugin-transition-link/AniLink"
 
@@ -23,14 +23,32 @@ const getTours = graphql`
   }
 `
 
-const Index = ({ data }) => {
-  const response = useStaticQuery(getTours)
-  const competitions = response.prismic.allCompetitions.edges
+const Index = props => {
+  const limit = 2
+  const didMountRef = useRef(false)
+  const [data, setData] = React.useState(props.data.prismic)
 
+  useEffect(props => {
+    if (!didMountRef.current) {
+      didMountRef.current = true
+      return
+    }
+
+    props.prismic
+      .load({
+        variables: { limit: limit },
+        getTours,
+        fragments: [],
+      })
+      .then(res => {
+        console.log(res)
+        setData(res.data)
+      })
+  }, [])
   return (
     <Wrapper>
       <div className="container">
-        {competitions.map(({ node }, index) => {
+        {data.allCompetitions.edges.map(({ node }, index) => {
           return (
             <AniLink
               key={index}
