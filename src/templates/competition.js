@@ -5,9 +5,9 @@ import styled from "styled-components"
 import Img from "gatsby-image"
 
 export const query = graphql`
-  {
+  query($uid: String!) {
     prismic {
-      competition(uid: "australia-national-competition", lang: "en-us") {
+      competition(uid: $uid, lang: "en-us") {
         title
         description
         image1
@@ -27,9 +27,10 @@ export const query = graphql`
   }
 `
 
-const Competition = ({ data }) => {
+const Competition = response => {
+  console.log(response)
+  const data = response.data
   const { title, description, awards } = data.prismic.competition
-  console.log(data.prismic.competition)
   const sharpImage = data.prismic.competition.image1Sharp.childImageSharp.fluid
   return (
     <Wrapper>

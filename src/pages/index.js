@@ -1,7 +1,7 @@
 import React from "react"
 import "../css/global.css"
 import styled from "styled-components"
-import { useStaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql, Link } from "gatsby"
 import { RichText, Date as ParseDate } from "prismic-reactjs"
 
 const getTours = graphql`
@@ -12,6 +12,9 @@ const getTours = graphql`
           node {
             title
             entry_opens_on
+            _meta {
+              uid
+            }
           }
         }
       }
@@ -28,9 +31,11 @@ const Index = ({ data }) => {
       <div className="container">
         {competitions.map(({ node }, index) => {
           return (
-            <div className="btn" key={index}>
-              {RichText.render(node.title)}
-            </div>
+            <Link to={`/competition/${node._meta.uid}`}>
+              <div className="btn" key={index}>
+                {RichText.render(node.title)}
+              </div>
+            </Link>
           )
         })}
       </div>
